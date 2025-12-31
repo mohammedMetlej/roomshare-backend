@@ -15,7 +15,7 @@ func Connect() error {
 	)
 
 	var err error
-	DB, err = sql.Open("posthgres", connStr)
+	DB, err = sql.Open("postgres", connStr)
 	if err != nil {
 		return err
 	}
