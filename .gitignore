@@ -1,0 +1,19 @@
+# Environment variables
+.env
+
+# Go binaries
+*.exe
+*.out
+*.test
+bin/
+
+# Go build cache
+/go/pkg/mod/
+.go-build/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
