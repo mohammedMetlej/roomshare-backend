@@ -14,8 +14,8 @@ func main() {
 		log.Fatal("Database connection failed", err)
 	}
 
-	http.HandleFunc("/bookings", handlers.CreateBooking)
 	log.Println("Server running on :8080")
+	http.HandleFunc("/bookings", handlers.BookingHandler)
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))
