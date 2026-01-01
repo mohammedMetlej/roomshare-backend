@@ -16,5 +16,9 @@ func main() {
 
 	http.HandleFunc("/bookings", handlers.CreateBooking)
 	log.Println("Server running on :8080")
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	})
 	http.ListenAndServe(":8080", nil)
 }
