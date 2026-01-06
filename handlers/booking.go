@@ -75,6 +75,7 @@ func GetBookings(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		http.Error(w, "Failed to fetch bookings", http.StatusInternalServerError)
+		return
 	}
 
 	defer rows.Close()
