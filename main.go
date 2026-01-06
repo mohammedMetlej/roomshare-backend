@@ -16,7 +16,7 @@ func main() {
 
 	log.Println("Server running on :8080")
 	http.HandleFunc("/bookings", handlers.BookingHandler)
-	http.HandleFunc("/rooms", handlers.GetRooms)
+	http.HandleFunc("/rooms", handlers.RoomHandler)
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("OK"))

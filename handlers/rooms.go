@@ -50,3 +50,46 @@ func GetRooms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(rooms)
 }
+
+func CreateRoom(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method nogt allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var req models.CreateRoomRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	_, err = db.DB.Exec(`Insert INTO rooms(owner_id,location,price,capacity,description) VALUES ($1,$2,$3,$4,$5)`,
+		req.OwnerId,
+		req.Location,
+		req.Price,
+		req.Capacity,
+		req.Description,
+	)
+
+	if err != nil {
+		http.Error(w, "Failed to create room ", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Room created Successfully"))
+}
+
+func RoomHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		GetRooms(w, r)
+
+	case http.MethodPost:
+		CreateRoom(w, r)
+
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	}
+}
