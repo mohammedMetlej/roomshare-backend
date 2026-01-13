@@ -11,7 +11,19 @@
             Available Rooms
         </h1>
 
+        <h2> Create Room </h2>
+        <form id ="roomForm">
+            <input type="number" placeholder="Owner Id" id ="owner_id" required />
+            <input type="text" placeholder="Location" id="location" required />
+            <input type="number" placeholder="Price" id="price" required />
+            <input type="number" placeholder="Capacity" id="capacity" required />
+            <input type="text"   placeholder="Description" id="description" required />
+            <button type="submit"> Create Room</button>
+        </form>
+
         <div id = "rooms"></div>
-        <script src = "js/script.js"></script>
+        <script type="module" src="js/rooms.js"></script>
+        <script type="module" src="js/create-room.js"></script>
+
     </body>
 </html>

@@ -53,7 +53,7 @@ func GetRooms(w http.ResponseWriter, r *http.Request) {
 
 func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method nogt allowed", http.StatusMethodNotAllowed)
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -64,7 +64,9 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = db.DB.Exec(`Insert INTO rooms(owner_id,location,price,capacity,description) VALUES ($1,$2,$3,$4,$5)`,
+	_, err = db.DB.Exec(
+		`INSERT INTO rooms (owner_id, location, price, capacity, description)
+		 VALUES ($1, $2, $3, $4, $5)`,
 		req.OwnerId,
 		req.Location,
 		req.Price,
@@ -73,12 +75,15 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err != nil {
-		http.Error(w, "Failed to create room ", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Room created Successfully"))
+	json.NewEncoder(w).Encode(map[string]string{
+		"message": "Room created successfully",
+	})
 }
 
 func RoomHandler(w http.ResponseWriter, r *http.Request) {
